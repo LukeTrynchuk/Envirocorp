@@ -1,4 +1,4 @@
-﻿namespace FireBullet.Enviro.Core.Services
+﻿namespace FireBullet.Core.Services
 {
     /// <summary>
     /// A service should be implemented
