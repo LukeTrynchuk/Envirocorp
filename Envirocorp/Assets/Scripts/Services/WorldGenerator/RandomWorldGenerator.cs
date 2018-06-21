@@ -23,6 +23,9 @@ namespace FireBullet.Enviro.Services
         [SerializeField]
         private Canvas m_gridCanvas;
 
+        [SerializeField]
+        private HexMesh m_hexMesh;
+
         private HexCell[] m_cells;
         #endregion
 
@@ -37,8 +40,8 @@ namespace FireBullet.Enviro.Services
         public void GenerateWorld(int width, int height)
         {
             m_cells = new HexCell[width * height];
-
             GenerateBoard(width, height);
+            m_hexMesh.Triangulate(m_cells);
         }
         #endregion
 
@@ -58,7 +61,7 @@ namespace FireBullet.Enviro.Services
 		{
             Vector3 position = GenerateHexPosition(i, j);
 
-            CreateHexObject(i, position);
+            CreateHexObject(v, position);
 
             CreateCellLabel(position, i,j);
         }
