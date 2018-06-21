@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using FireBullet.Core.Services;
 using FireBullet.Enviro.Board;
+using UnityEngine.UI;
 using System;
 
 namespace FireBullet.Enviro.Services
@@ -14,6 +15,12 @@ namespace FireBullet.Enviro.Services
         #region Private Variables
         [SerializeField]
         private GameObject m_hexPrefab;
+
+        [SerializeField]
+        private Text m_cellLabelPrefab;
+
+        [SerializeField]
+        private Canvas m_gridCanvas;
 
         private HexCell[] m_cells;
         #endregion
@@ -48,15 +55,37 @@ namespace FireBullet.Enviro.Services
 		
 		private void CreateCell(int i, int j, int v)
 		{
+            Vector3 position = GenerateHexPosition(i, j);
+
+            CreateHexObject(i, position);
+
+            CreateCellLabel(position, i,j);
+        }
+
+        private void CreateHexObject(int i, Vector3 position)
+        {
+            HexCell cell = m_cells[i] = Instantiate(m_hexPrefab).GetComponent<HexCell>();
+            cell.transform.SetParent(transform, false);
+            cell.transform.localPosition = position;
+        }
+
+        private static Vector3 GenerateHexPosition(int i, int j)
+        {
             Vector3 position;
             position.x = i * 10f;
             position.y = 0f;
             position.z = j * 10f;
+            return position;
+        }
 
-            HexCell cell = m_cells[i] = Instantiate(m_hexPrefab).GetComponent<HexCell>();
-            cell.transform.SetParent(transform, false);
-            cell.transform.localPosition = position;
-		}
+        private void CreateCellLabel(Vector3 position, int x, int z)
+        {
+            Text label = Instantiate<Text>(m_cellLabelPrefab);
+            label.rectTransform.SetParent(m_gridCanvas.transform, false);
+            label.rectTransform.anchoredPosition =
+                new Vector2(position.x, position.z);
+            label.text = $"{x.ToString()}\n{z.ToString()}";
+        }
         #endregion
     }
 }
