@@ -3,6 +3,7 @@ using FireBullet.Core.Services;
 using FireBullet.Enviro.Board;
 using UnityEngine.UI;
 using System;
+using FireBullet.Enviro.Utilities;
 
 namespace FireBullet.Enviro.Services
 {
@@ -72,9 +73,9 @@ namespace FireBullet.Enviro.Services
         private static Vector3 GenerateHexPosition(int i, int j)
         {
             Vector3 position;
-            position.x = i * 10f;
+            position.x = (i + j * 0.5f - j / 2) * (HexMetrics.innerRadius * 2f);
+			position.z = j * (HexMetrics.outerRadius * 1.5f);
             position.y = 0f;
-            position.z = j * 10f;
             return position;
         }
 
