@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FireBullet.Enviro.Core.Services
+namespace FireBullet.Core.Services
 {
     /// <summary>
     /// A service reference is an object that holds

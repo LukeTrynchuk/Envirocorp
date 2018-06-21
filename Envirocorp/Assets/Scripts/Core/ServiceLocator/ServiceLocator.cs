@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-namespace FireBullet.Enviro.Core.Services
+namespace FireBullet.Core.Services
 {
     /// <summary>
     /// The service locator class is a singleton
