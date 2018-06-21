@@ -1,0 +1,62 @@
+﻿using UnityEngine;
+using FireBullet.Core.Services;
+using FireBullet.Enviro.Board;
+using System;
+
+namespace FireBullet.Enviro.Services
+{
+    /// <summary>
+    /// The world generator is responsible for
+    /// generating the game board during runtime.
+    /// </summary>
+    public class RandomWorldGenerator : MonoBehaviour, IWorldGenerator
+    {
+        #region Private Variables
+        [SerializeField]
+        private GameObject m_hexPrefab;
+
+        private HexCell[] m_cells;
+        #endregion
+
+        #region Main Methods
+        void Start() => RegisterService();
+
+        public void RegisterService()
+        {
+            ServiceLocator.Register<IWorldGenerator>(this);
+        }
+
+        public void GenerateWorld(int width, int height)
+        {
+            m_cells = new HexCell[width * height];
+
+            GenerateBoard(width, height);
+        }
+        #endregion
+
+        #region Utility Methods		
+		private void GenerateBoard(int width, int height)
+		{
+			for (int i = 0, k = 0; i < height; i++)
+			{
+				for (int j = 0; j < width; j++)
+				{
+					CreateCell(i, j, k++);
+				}
+			}
+		}
+		
+		private void CreateCell(int i, int j, int v)
+		{
+            Vector3 position;
+            position.x = i * 10f;
+            position.y = 0f;
+            position.z = j * 10f;
+
+            HexCell cell = m_cells[i] = Instantiate(m_hexPrefab).GetComponent<HexCell>();
+            cell.transform.SetParent(transform, false);
+            cell.transform.localPosition = position;
+		}
+        #endregion
+    }
+}
