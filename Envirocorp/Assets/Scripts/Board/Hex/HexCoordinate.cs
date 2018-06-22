@@ -19,7 +19,7 @@ namespace FireBullet.Enviro.Board
             Z = z;
         }
 
-        public static HexCoordinate FromOffsetCoordinates(int x, int z) => new HexCoordinate(x, z);
+        public static HexCoordinate FromOffsetCoordinates(int x, int z) => new HexCoordinate(x - z / 2, z);
         public override string ToString() => $"{X.ToString()},{Z.ToString()}";
         public string ToStringOnSeparateLines() => $"{X.ToString()}\n{Z.ToString()}";
     }

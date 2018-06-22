@@ -10,5 +10,6 @@ namespace FireBullet.Enviro.Board
     /// </summary>
     public class HexCell : MonoBehaviour 
     {
+        public HexCoordinate m_Coordinate;
     }
 }

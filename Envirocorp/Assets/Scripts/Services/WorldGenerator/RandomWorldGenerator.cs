@@ -61,16 +61,17 @@ namespace FireBullet.Enviro.Services
 		{
             Vector3 position = GenerateHexPosition(i, j);
 
-            CreateHexObject(v, position);
+            CreateHexObject(v, i, j, position);
 
-            CreateCellLabel(position, i,j);
+            CreateCellLabel(position, i,j, v);
         }
 
-        private void CreateHexObject(int i, Vector3 position)
+        private void CreateHexObject(int i, int x, int z, Vector3 position)
         {
             HexCell cell = m_cells[i] = Instantiate(m_hexPrefab).GetComponent<HexCell>();
             cell.transform.SetParent(transform, false);
             cell.transform.localPosition = position;
+            cell.m_Coordinate = HexCoordinate.FromOffsetCoordinates(x, z);
         }
 
         private static Vector3 GenerateHexPosition(int i, int j)
@@ -82,13 +83,13 @@ namespace FireBullet.Enviro.Services
             return position;
         }
 
-        private void CreateCellLabel(Vector3 position, int x, int z)
+        private void CreateCellLabel(Vector3 position, int x, int z, int index)
         {
             Text label = Instantiate<Text>(m_cellLabelPrefab);
             label.rectTransform.SetParent(m_gridCanvas.transform, false);
             label.rectTransform.anchoredPosition =
                 new Vector2(position.x, position.z);
-            label.text = $"{x.ToString()}\n{z.ToString()}";
+            label.text = m_cells[index].m_Coordinate.ToStringOnSeparateLines();
         }
         #endregion
     }
