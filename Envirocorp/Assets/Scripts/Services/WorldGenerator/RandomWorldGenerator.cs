@@ -69,7 +69,8 @@ namespace FireBullet.Enviro.Services
         void TouchCell(Vector3 position)
         {
             position = transform.InverseTransformPoint(position);
-            Debug.Log("touched at " + position);
+            HexCoordinate coordinate = HexCoordinate.FromPosition(position);
+            Debug.Log($"Touched at {coordinate.ToString()}");
         }
 
 		private void GenerateBoard(int width, int height)
