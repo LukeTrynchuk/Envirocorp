@@ -10,18 +10,28 @@ namespace FireBullet.Enviro.Board
     [System.Serializable]
     public struct HexCoordinate
     {
-        public int X { get; private set; }
-        public int Z { get; private set; }
-        public int Y => -X - Z;
+        #region Public Variables
+        public int X => m_x;
+		public int Y => -X - Z;
+        public int Z => m_z;
+        #endregion
+
+        #region Private Variables
+        [SerializeField]
+        private int m_x;
+
+        [SerializeField]
+        private int m_z;
+        #endregion
 
         public HexCoordinate(int x, int z)
         {
-            X = x;
-            Z = z;
+            this.m_x = x;
+            this.m_z = z;
         }
 
         public static HexCoordinate FromOffsetCoordinates(int x, int z) => new HexCoordinate(x - z / 2, z);
-        public override string ToString() => $"{X.ToString()},{Y.ToString()},{Z.ToString()}";
+        public override string ToString() => $"({X.ToString()},{Y.ToString()},{Z.ToString()})";
         public string ToStringOnSeparateLines() => $"{X.ToString()}\n{Y.ToString()}\n{Z.ToString()}";
     }
 }
