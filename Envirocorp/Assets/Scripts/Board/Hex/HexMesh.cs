@@ -13,6 +13,10 @@ namespace FireBullet.Enviro.Board
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class HexMesh : MonoBehaviour
     {
+        #region Public Variables
+        public Mesh Mesh => m_mesh;
+        #endregion
+
         #region Private Variables
         private Mesh m_mesh;
         private List<Vector3> m_vertices;

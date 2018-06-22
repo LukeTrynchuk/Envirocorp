@@ -26,11 +26,20 @@ namespace FireBullet.Enviro.Services
         [SerializeField]
         private HexMesh m_hexMesh;
 
+        private MeshCollider m_meshCollider;
         private HexCell[] m_cells;
         #endregion
 
         #region Main Methods
         void Start() => RegisterService();
+
+        void Update()
+        {
+            if(Input.GetMouseButton(0))
+            {
+                HandleInput();
+            }
+        }
 
         public void RegisterService()
         {
@@ -42,10 +51,27 @@ namespace FireBullet.Enviro.Services
             m_cells = new HexCell[width * height];
             GenerateBoard(width, height);
             m_hexMesh.Triangulate(m_cells);
+            CreateMeshCollider();
         }
         #endregion
 
         #region Utility Methods		
+        private void HandleInput()
+        {
+            Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(inputRay, out hit))
+            {
+                TouchCell(hit.point);
+            }
+        }
+
+        void TouchCell(Vector3 position)
+        {
+            position = transform.InverseTransformPoint(position);
+            Debug.Log("touched at " + position);
+        }
+
 		private void GenerateBoard(int width, int height)
 		{
 			for (int i = 0, k = 0; i < height; i++)
@@ -90,6 +116,12 @@ namespace FireBullet.Enviro.Services
             label.rectTransform.anchoredPosition =
                 new Vector2(position.x, position.z);
             label.text = m_cells[index].m_Coordinate.ToStringOnSeparateLines();
+        }
+
+        private void CreateMeshCollider()
+        {
+            m_meshCollider = gameObject.AddComponent<MeshCollider>();
+            m_meshCollider.sharedMesh = m_hexMesh.Mesh;
         }
         #endregion
     }
