@@ -14,10 +14,12 @@ namespace FireBullet.Enviro.Services
     {
         #region Public Variables
         public event System.Action<HexCoordinate> OnHexPressed;
+        public event System.Action<bool> OnInGameMapEditorRequested;
         #endregion
 
         #region Private Variables
         private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
+        private bool m_mapEditorOpen = false;
         #endregion
 
         #region Main Methods
@@ -28,6 +30,11 @@ namespace FireBullet.Enviro.Services
             if (Input.GetMouseButton(0))
             {
                 HandleLeftClick();
+            }
+
+            if(Input.GetKeyDown(KeyCode.Backslash))
+            {
+                HandleMapEditorKeyPressed();
             }
         }
 
@@ -61,6 +68,12 @@ namespace FireBullet.Enviro.Services
             {
 				OnHexPressed?.Invoke(cell.m_Coordinate);            
             }
+        }
+
+        void HandleMapEditorKeyPressed()
+        {
+            m_mapEditorOpen = !m_mapEditorOpen;
+            OnInGameMapEditorRequested?.Invoke(m_mapEditorOpen);
         }
         #endregion
     }
