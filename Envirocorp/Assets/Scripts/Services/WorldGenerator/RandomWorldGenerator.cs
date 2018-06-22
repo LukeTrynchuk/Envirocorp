@@ -13,6 +13,10 @@ namespace FireBullet.Enviro.Services
     /// </summary>
     public class RandomWorldGenerator : MonoBehaviour, IWorldGenerator
     {
+        #region Public Variables
+        public event System.Action<HexCell[], int, int> OnWorldGenerated;
+        #endregion
+
         #region Private Variables
         [SerializeField]
         private GameObject m_hexPrefab;
@@ -39,14 +43,6 @@ namespace FireBullet.Enviro.Services
         #region Main Methods
         void Start() => RegisterService();
 
-        void Update()
-        {
-            if (Input.GetMouseButton(0))
-            {
-                HandleInput();
-            }
-        }
-
         public void RegisterService()
         {
             ServiceLocator.Register<IWorldGenerator>(this);
@@ -60,33 +56,12 @@ namespace FireBullet.Enviro.Services
             m_cells = new HexCell[width * height];
             GenerateBoard(width, height);
             m_hexMesh.Triangulate(m_cells);
+
+            OnWorldGenerated?.Invoke(m_cells, m_width, m_height);
         }
         #endregion
 
         #region Utility Methods		
-        private void HandleInput()
-        {
-            Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(inputRay, out hit))
-            {
-                TouchCell(hit.point);
-            }
-        }
-
-        void TouchCell(Vector3 position)
-        {
-            position = transform.InverseTransformPoint(position);
-            HexCoordinate coordinate = HexCoordinate.FromPosition(position);
-
-            int index = coordinate.X + coordinate.Z * m_width + coordinate.Z / 2;
-            HexCell cell = m_cells[index];
-            cell.m_Color = touchedColor;
-            m_hexMesh.Triangulate(m_cells);
-
-            Debug.Log($"Touched at {coordinate.ToString()}");
-        }
-
 		private void GenerateBoard(int width, int height)
 		{
 			for (int i = 0, k = 0; i < height; i++)
