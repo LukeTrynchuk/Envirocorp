@@ -26,8 +26,14 @@ namespace FireBullet.Enviro.Services
         [SerializeField]
         private HexMesh m_hexMesh;
 
-        private MeshCollider m_meshCollider;
+        [SerializeField]
+        private Color defaultColor = Color.white;
+
+        [SerializeField]
+        private Color touchedColor = Color.magenta;
+
         private HexCell[] m_cells;
+        private int m_width, m_height;
         #endregion
 
         #region Main Methods
@@ -35,7 +41,7 @@ namespace FireBullet.Enviro.Services
 
         void Update()
         {
-            if(Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0))
             {
                 HandleInput();
             }
@@ -48,10 +54,12 @@ namespace FireBullet.Enviro.Services
 
         public void GenerateWorld(int width, int height)
         {
+            m_width = width;
+            m_height = height;
+
             m_cells = new HexCell[width * height];
             GenerateBoard(width, height);
             m_hexMesh.Triangulate(m_cells);
-            CreateMeshCollider();
         }
         #endregion
 
@@ -60,7 +68,7 @@ namespace FireBullet.Enviro.Services
         {
             Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if(Physics.Raycast(inputRay, out hit))
+            if (Physics.Raycast(inputRay, out hit))
             {
                 TouchCell(hit.point);
             }
@@ -70,6 +78,12 @@ namespace FireBullet.Enviro.Services
         {
             position = transform.InverseTransformPoint(position);
             HexCoordinate coordinate = HexCoordinate.FromPosition(position);
+
+            int index = coordinate.X + coordinate.Z * m_width + coordinate.Z / 2;
+            HexCell cell = m_cells[index];
+            cell.m_Color = touchedColor;
+            m_hexMesh.Triangulate(m_cells);
+
             Debug.Log($"Touched at {coordinate.ToString()}");
         }
 
@@ -99,6 +113,7 @@ namespace FireBullet.Enviro.Services
             cell.transform.SetParent(transform, false);
             cell.transform.localPosition = position;
             cell.m_Coordinate = HexCoordinate.FromOffsetCoordinates(x, z);
+            cell.m_Color = defaultColor;
         }
 
         private static Vector3 GenerateHexPosition(int i, int j)
@@ -117,12 +132,6 @@ namespace FireBullet.Enviro.Services
             label.rectTransform.anchoredPosition =
                 new Vector2(position.x, position.z);
             label.text = m_cells[index].m_Coordinate.ToStringOnSeparateLines();
-        }
-
-        private void CreateMeshCollider()
-        {
-            m_meshCollider = gameObject.AddComponent<MeshCollider>();
-            m_meshCollider.sharedMesh = m_hexMesh.Mesh;
         }
         #endregion
     }
