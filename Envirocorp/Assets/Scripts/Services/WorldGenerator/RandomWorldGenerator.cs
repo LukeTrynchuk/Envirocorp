@@ -13,6 +13,10 @@ namespace FireBullet.Enviro.Services
     /// </summary>
     public class RandomWorldGenerator : MonoBehaviour, IWorldGenerator
     {
+        #region Public Variables
+        public event Action<HexCell[], int, int> OnWorldGenerated;
+        #endregion
+
         #region Private Variables
         [SerializeField]
         private GameObject m_hexPrefab;
@@ -26,7 +30,9 @@ namespace FireBullet.Enviro.Services
         [SerializeField]
         private HexMesh m_hexMesh;
 
+        private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
         private HexCell[] m_cells;
+        private int m_width, m_height;
         #endregion
 
         #region Main Methods
@@ -39,9 +45,20 @@ namespace FireBullet.Enviro.Services
 
         public void GenerateWorld(int width, int height)
         {
+            m_width = width;
+            m_height = height;
+
             m_cells = new HexCell[width * height];
             GenerateBoard(width, height);
             m_hexMesh.Triangulate(m_cells);
+
+            OnWorldGenerated?.Invoke(m_cells, m_width, m_height);
+        }
+
+        public void RetriangulateWorld()
+        {
+            if (!m_boardService.isRegistered()) return;
+            m_hexMesh.Triangulate(m_boardService.Reference.GetBoard());
         }
         #endregion
 
