@@ -12,6 +12,7 @@ namespace FireBullet.Enviro.Board
     {
         public int X { get; private set; }
         public int Z { get; private set; }
+        public int Y => -X - Z;
 
         public HexCoordinate(int x, int z)
         {
@@ -20,7 +21,7 @@ namespace FireBullet.Enviro.Board
         }
 
         public static HexCoordinate FromOffsetCoordinates(int x, int z) => new HexCoordinate(x - z / 2, z);
-        public override string ToString() => $"{X.ToString()},{Z.ToString()}";
-        public string ToStringOnSeparateLines() => $"{X.ToString()}\n{Z.ToString()}";
+        public override string ToString() => $"{X.ToString()},{Y.ToString()},{Z.ToString()}";
+        public string ToStringOnSeparateLines() => $"{X.ToString()}\n{Y.ToString()}\n{Z.ToString()}";
     }
 }
