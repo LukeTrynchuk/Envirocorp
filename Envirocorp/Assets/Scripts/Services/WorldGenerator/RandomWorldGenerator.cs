@@ -14,7 +14,7 @@ namespace FireBullet.Enviro.Services
     public class RandomWorldGenerator : MonoBehaviour, IWorldGenerator
     {
         #region Public Variables
-        public event System.Action<HexCell[], int, int> OnWorldGenerated;
+        public event Action<HexCell[], int, int> OnWorldGenerated;
         #endregion
 
         #region Private Variables
@@ -30,12 +30,7 @@ namespace FireBullet.Enviro.Services
         [SerializeField]
         private HexMesh m_hexMesh;
 
-        [SerializeField]
-        private Color defaultColor = Color.white;
-
-        [SerializeField]
-        private Color touchedColor = Color.magenta;
-
+        private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
         private HexCell[] m_cells;
         private int m_width, m_height;
         #endregion
@@ -58,6 +53,12 @@ namespace FireBullet.Enviro.Services
             m_hexMesh.Triangulate(m_cells);
 
             OnWorldGenerated?.Invoke(m_cells, m_width, m_height);
+        }
+
+        public void RetriangulateWorld()
+        {
+            if (!m_boardService.isRegistered()) return;
+            m_hexMesh.Triangulate(m_boardService.Reference.GetBoard());
         }
         #endregion
 
@@ -88,7 +89,6 @@ namespace FireBullet.Enviro.Services
             cell.transform.SetParent(transform, false);
             cell.transform.localPosition = position;
             cell.m_Coordinate = HexCoordinate.FromOffsetCoordinates(x, z);
-            cell.m_Color = defaultColor;
         }
 
         private static Vector3 GenerateHexPosition(int i, int j)

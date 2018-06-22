@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using FireBullet.Enviro.Board;
+using FireBullet.Core.Services;
 
 namespace FireBullet.Enviro.Services
 {
@@ -9,7 +10,7 @@ namespace FireBullet.Enviro.Services
     /// The Input Service is responsible for detecting
     /// when the player has hit a mouse button or key.
     /// </summary>
-    public interface IInputService
+    public interface IInputService : IService
     {
         event System.Action<HexCoordinate> OnHexPressed;
     }

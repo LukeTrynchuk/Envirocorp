@@ -12,5 +12,10 @@ namespace FireBullet.Enviro.Board
     {
         public HexCoordinate m_Coordinate;
         public Color m_Color;
-    }
+
+		private void Awake()
+		{
+            m_Color = Color.white;
+		}
+	}
 }

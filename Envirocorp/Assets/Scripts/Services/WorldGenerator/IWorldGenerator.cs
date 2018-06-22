@@ -13,5 +13,6 @@ namespace FireBullet.Enviro.Services
         event System.Action<HexCell[], int, int> OnWorldGenerated;
 
         void GenerateWorld(int width, int height);
+        void RetriangulateWorld();
     }
 }

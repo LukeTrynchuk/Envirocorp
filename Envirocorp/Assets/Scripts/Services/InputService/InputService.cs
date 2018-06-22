@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using FireBullet.Enviro.Board;
+﻿using FireBullet.Enviro.Board;
 using UnityEngine;
+using FireBullet.Core.Services;
 
 namespace FireBullet.Enviro.Services
 {
@@ -17,7 +16,13 @@ namespace FireBullet.Enviro.Services
         public event System.Action<HexCoordinate> OnHexPressed;
         #endregion
 
+        #region Private Variables
+        private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
+        #endregion
+
         #region Main Methods
+        void Start() => RegisterService();
+
         void Update()
         {
             if (Input.GetMouseButton(0))
@@ -25,11 +30,18 @@ namespace FireBullet.Enviro.Services
                 HandleLeftClick();
             }
         }
+
+        public void RegisterService()
+        {
+            ServiceLocator.Register<IInputService>(this);
+        }
         #endregion
 
         #region Utility Methods
         private void HandleLeftClick()
         {
+            if (!m_boardService.isRegistered()) return;
+
             Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(inputRay, out hit))
@@ -43,12 +55,12 @@ namespace FireBullet.Enviro.Services
             position = transform.InverseTransformPoint(position);
             HexCoordinate coordinate = HexCoordinate.FromPosition(position);
 
-            int index = coordinate.X + coordinate.Z * m_width + coordinate.Z / 2;
-            HexCell cell = m_cells[index];
-            cell.m_Color = touchedColor;
-            m_hexMesh.Triangulate(m_cells);
+            HexCell cell = m_boardService.Reference.GetCellAt(coordinate);
 
-            Debug.Log($"Touched at {coordinate.ToString()}");
+            if(cell != null)
+            {
+				OnHexPressed?.Invoke(cell.m_Coordinate);            
+            }
         }
         #endregion
     }
