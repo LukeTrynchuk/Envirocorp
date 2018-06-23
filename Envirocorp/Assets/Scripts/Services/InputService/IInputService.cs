@@ -13,6 +13,6 @@ namespace FireBullet.Enviro.Services
     public interface IInputService : IService
     {
         event System.Action<HexCoordinate> OnHexPressed;
-        event System.Action<bool> OnInGameMapEditorRequested;
+        event System.Action OnConsoleKeyPressed;
     }
 }

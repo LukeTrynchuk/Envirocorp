@@ -1,6 +1,7 @@
 ﻿using FireBullet.Enviro.Board;
 using UnityEngine;
 using FireBullet.Core.Services;
+using System;
 
 namespace FireBullet.Enviro.Services
 {
@@ -13,13 +14,12 @@ namespace FireBullet.Enviro.Services
     public class InputService : MonoBehaviour, IInputService
     {
         #region Public Variables
-        public event System.Action<HexCoordinate> OnHexPressed;
-        public event System.Action<bool> OnInGameMapEditorRequested;
+        public event Action<HexCoordinate> OnHexPressed;
+        public event Action OnConsoleKeyPressed;
         #endregion
 
         #region Private Variables
         private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
-        private bool m_mapEditorOpen = false;
         #endregion
 
         #region Main Methods
@@ -27,15 +27,9 @@ namespace FireBullet.Enviro.Services
 
         void Update()
         {
-            if (Input.GetMouseButton(0))
-            {
-                HandleLeftClick();
-            }
+            if (Input.GetMouseButton(0)) HandleLeftClick();
 
-            if(Input.GetKeyDown(KeyCode.Backslash))
-            {
-                HandleMapEditorKeyPressed();
-            }
+            if(Input.GetKeyDown(KeyCode.Backslash)) HandleConsoleKeyPressed();
         }
 
         public void RegisterService()
@@ -70,11 +64,8 @@ namespace FireBullet.Enviro.Services
             }
         }
 
-        void HandleMapEditorKeyPressed()
-        {
-            m_mapEditorOpen = !m_mapEditorOpen;
-            OnInGameMapEditorRequested?.Invoke(m_mapEditorOpen);
-        }
+        void HandleConsoleKeyPressed() => OnConsoleKeyPressed?.Invoke();
+        
         #endregion
     }
 }
