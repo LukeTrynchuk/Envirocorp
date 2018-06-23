@@ -78,8 +78,8 @@ namespace FireBullet.Enviro.Services
         private void AddTextToBackLog()
         {
             string value = m_inputField.text;
-            m_backlogText.text += $"\n>>>{value}";
-            m_scrollView.normalizedPosition = Vector2.zero;
+            m_backlogText.text += $"\n>>>{value}\n";
+			m_scrollView.verticalNormalizedPosition = 0f;
         }
         #endregion
 
