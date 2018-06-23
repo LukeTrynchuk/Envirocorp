@@ -1063,6 +1063,7 @@ MonoBehaviour:
   m_consoleText: {fileID: 2005308031}
   m_backlogText: {fileID: 826728725}
   m_inputField: {fileID: 760655335}
+  m_scrollView: {fileID: 186973558}
   m_onConsoleActiveStatusChanged:
     m_PersistentCalls:
       m_Calls:

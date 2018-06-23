@@ -3,6 +3,7 @@ using FireBullet.Core.Services;
 using FireBullet.Enviro.Utilities;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 namespace FireBullet.Enviro.Services
 {
@@ -27,6 +28,9 @@ namespace FireBullet.Enviro.Services
 
         [SerializeField]
         private TMP_InputField m_inputField;
+
+        [SerializeField]
+        private ScrollRect m_scrollView;
 
         [SerializeField]
         private DynamicBoolEvent m_onConsoleActiveStatusChanged;
@@ -73,6 +77,7 @@ namespace FireBullet.Enviro.Services
         {
             string value = m_inputField.text;
             m_backlogText.text += $"\n{value}";
+            m_scrollView.normalizedPosition = Vector2.zero;
         }
         #endregion
 
