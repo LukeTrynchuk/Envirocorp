@@ -10,6 +10,6 @@ namespace FireBullet.Enviro.Services
     /// </summary>
     public interface IConsoleService : IService
     {
-        
+        bool Active { get; }
     }
 }

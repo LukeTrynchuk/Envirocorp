@@ -388,6 +388,7 @@ GameObject:
   - component: {fileID: 760655337}
   - component: {fileID: 760655336}
   - component: {fileID: 760655335}
+  - component: {fileID: 760655338}
   m_Layer: 5
   m_Name: ConsoleInput
   m_TagString: Untagged
@@ -468,7 +469,18 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2005308031}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: TMPro.TMP_InputField+SubmitEvent, TextMeshPro-2017.3-Runtime, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_OnSubmit:
@@ -548,6 +560,44 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 760655333}
+--- !u!114 &760655338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 760655333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f7417bb1f4b40a1b923c2c2597d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_onEnabled:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2005308031}
+        m_MethodName: SetText
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 760655335}
+        m_MethodName: ActivateInputField
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &901116001
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +639,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b2c25e9de92b48fc9db52f63d917049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_consoleText: {fileID: 2005308031}
+  m_inputField: {fileID: 760655335}
   m_onConsoleActiveStatusChanged:
     m_PersistentCalls:
       m_Calls:

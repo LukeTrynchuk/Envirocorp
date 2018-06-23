@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using FireBullet.Core.Services;
 using FireBullet.Enviro.Utilities;
+using TMPro;
 
 namespace FireBullet.Enviro.Services
 {
@@ -12,7 +13,17 @@ namespace FireBullet.Enviro.Services
     /// </summary>
     public class ConsoleService : MonoBehaviour , IConsoleService
     {
+        #region Public Variables
+        public bool Active => m_active;
+        #endregion
+
         #region Private Variables
+        [SerializeField]
+        private TMP_Text m_consoleText;
+
+        [SerializeField]
+        private TMP_InputField m_inputField;
+
         [SerializeField]
         private DynamicBoolEvent m_onConsoleActiveStatusChanged;
 
@@ -46,6 +57,12 @@ namespace FireBullet.Enviro.Services
             m_active = !m_active;
             m_onConsoleActiveStatusChanged?.Invoke(m_active);
         }
+
+        void HandleConsoleEnterKeyPressed()
+        {
+			m_inputField.ActivateInputField();
+            m_inputField.text = "";
+        }
         #endregion
 
         #region Utility Methods
@@ -53,6 +70,9 @@ namespace FireBullet.Enviro.Services
         {
             m_inputService.Reference.OnConsoleKeyPressed -= HandleConsoleKeyPressed;
             m_inputService.Reference.OnConsoleKeyPressed += HandleConsoleKeyPressed;
+
+            m_inputService.Reference.OnConsoleCommandKeyPressed -= HandleConsoleEnterKeyPressed;
+            m_inputService.Reference.OnConsoleCommandKeyPressed += HandleConsoleEnterKeyPressed;
         }
         #endregion
     }

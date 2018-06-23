@@ -15,11 +15,14 @@ namespace FireBullet.Enviro.Services
     {
         #region Public Variables
         public event Action<HexCoordinate> OnHexPressed;
+
         public event Action OnConsoleKeyPressed;
+        public event Action OnConsoleCommandKeyPressed;
         #endregion
 
         #region Private Variables
         private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
+        private ServiceReference<IConsoleService> m_consoleService = new ServiceReference<IConsoleService>();
         #endregion
 
         #region Main Methods
@@ -30,6 +33,8 @@ namespace FireBullet.Enviro.Services
             if (Input.GetMouseButton(0)) HandleLeftClick();
 
             if(Input.GetKeyDown(KeyCode.Backslash)) HandleConsoleKeyPressed();
+
+            if (Input.GetKeyDown(KeyCode.Return)) HandleEnterKeyPressed();
         }
 
         public void RegisterService()
@@ -61,6 +66,18 @@ namespace FireBullet.Enviro.Services
             if(cell != null)
             {
 				OnHexPressed?.Invoke(cell.m_Coordinate);            
+            }
+        }
+
+
+        private void HandleEnterKeyPressed()
+        {
+            bool consoleActive = m_consoleService.Reference?.Active ?? false;
+
+            if(consoleActive) 
+            {
+                OnConsoleCommandKeyPressed?.Invoke();
+                return;
             }
         }
 
