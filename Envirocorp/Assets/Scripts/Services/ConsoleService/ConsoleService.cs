@@ -2,6 +2,7 @@
 using FireBullet.Core.Services;
 using FireBullet.Enviro.Utilities;
 using TMPro;
+using System;
 
 namespace FireBullet.Enviro.Services
 {
@@ -20,6 +21,9 @@ namespace FireBullet.Enviro.Services
         #region Private Variables
         [SerializeField]
         private TMP_Text m_consoleText;
+
+        [SerializeField]
+        private TMP_Text m_backlogText;
 
         [SerializeField]
         private TMP_InputField m_inputField;
@@ -60,8 +64,15 @@ namespace FireBullet.Enviro.Services
 
         void HandleConsoleEnterKeyPressed()
         {
+            AddTextToBackLog();
 			m_inputField.ActivateInputField();
             m_inputField.text = "";
+        }
+
+        private void AddTextToBackLog()
+        {
+            string value = m_inputField.text;
+            m_backlogText.text += $"\n{value}";
         }
         #endregion
 
