@@ -40,6 +40,8 @@ namespace FireBullet.Enviro.Services
         #endregion
 
         #region Main Methods
+        void Start() => SetConsoleText();
+
         private void OnEnable()
         {
             RegisterService();
@@ -76,7 +78,7 @@ namespace FireBullet.Enviro.Services
         private void AddTextToBackLog()
         {
             string value = m_inputField.text;
-            m_backlogText.text += $"\n{value}";
+            m_backlogText.text += $"\n>>>{value}";
             m_scrollView.normalizedPosition = Vector2.zero;
         }
         #endregion
@@ -89,6 +91,14 @@ namespace FireBullet.Enviro.Services
 
             m_inputService.Reference.OnConsoleCommandKeyPressed -= HandleConsoleEnterKeyPressed;
             m_inputService.Reference.OnConsoleCommandKeyPressed += HandleConsoleEnterKeyPressed;
+        }
+
+        private void SetConsoleText()
+        {
+            m_backlogText.text =
+                "Envirocorp Console - FireBullet Games 2018 (C) \n" +
+                "---------------------------------------------\n" +
+                "Type help for list of all commands.\n";
         }
         #endregion
     }
