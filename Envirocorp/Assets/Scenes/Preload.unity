@@ -1252,6 +1252,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 971a0a012c9a5439388082db4d070d0b, type: 2}
   - {fileID: 11400000, guid: eb69fd3b5648a4a4fa7a86467ba5cc87, type: 2}
   - {fileID: 11400000, guid: 98711a8e7dff44e1ab18daddd2d547aa, type: 2}
+  - {fileID: 11400000, guid: ed8bccd312add40c3950253c67cee4da, type: 2}
 --- !u!114 &901116004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1395,11 +1396,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:

@@ -5,6 +5,8 @@ using TMPro;
 using System;
 using UnityEngine.UI;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace FireBullet.Enviro.Services
 {
@@ -14,7 +16,7 @@ namespace FireBullet.Enviro.Services
     /// and sending out commands. Mainly
     /// for debugging and testing.
     /// </summary>
-    public class ConsoleService : MonoBehaviour , IConsoleService
+    public class ConsoleService : MonoBehaviour, IConsoleService
     {
         #region Public Variables
         public bool Active => m_active;
@@ -55,16 +57,16 @@ namespace FireBullet.Enviro.Services
         void OnDisable()
         {
             ServiceLocator.Unregister<IConsoleService>(this);
-            if(m_inputService.isRegistered())
+            if (m_inputService.isRegistered())
             {
                 m_inputService.Reference.OnConsoleKeyPressed -= HandleConsoleKeyPressed;
             }
         }
 
-		public void RegisterService()
-		{
+        public void RegisterService()
+        {
             ServiceLocator.Register<IConsoleService>(this);
-		}
+        }
 
         void HandleConsoleKeyPressed()
         {
@@ -77,21 +79,21 @@ namespace FireBullet.Enviro.Services
         void HandleConsoleEnterKeyPressed()
         {
             AddTextToBackLog(m_inputField.text, true);
-			ProcessInput(m_inputField.text);
-			m_inputField.ActivateInputField();
+            ProcessInput(m_inputField.text);
+            m_inputField.ActivateInputField();
             m_inputField.text = "";
         }
 
         private void AddTextToBackLog(string value, bool command)
         {
             if (string.IsNullOrEmpty(value)) return;
-            if(command)
+            if (command)
                 m_backlogText.text += $"\n>>><b><color=#298E37>{value}<color=#D9D9D9></b>";
 
-            if(!command)
+            if (!command)
                 m_backlogText.text += $"\n{value}\n";
-            
-			m_scrollView.verticalNormalizedPosition = 0f;
+
+            m_scrollView.verticalNormalizedPosition = 0f;
         }
         #endregion
 
@@ -115,27 +117,39 @@ namespace FireBullet.Enviro.Services
 
         private void ProcessInput(string text)
         {
-            text = text.ToUpper();
+            CommandInput input = ParseInput(text);
 
-            if(text.Equals("HELP"))
+            if (input.CommandValue.Equals("HELP"))
             {
                 ListHelpCommands();
                 return;
             }
 
-            if(text.Equals("CLEAR"))
+            if (input.CommandValue.Equals("CLEAR"))
             {
                 SetConsoleText();
                 return;
             }
 
-            Command command = m_commands.Where(x => x.CommandString.ToUpper().Equals(text)).FirstOrDefault();
-            if(command == null) 
+            Command command = m_commands.Where(x => x.CommandString.ToUpper().Equals(input.CommandValue)).FirstOrDefault();
+            if (command == null)
             {
                 AddTextToBackLog("Error : Invalid Command", false);
                 return;
             }
             AddTextToBackLog(command.Execute(), false);
+        }
+
+        private CommandInput ParseInput(string text)
+        {
+            text = text.ToUpper();
+            text = text.Replace("(", " ( ");
+            text = text.Replace(")", " )");
+
+            string commandValue = ParseCommandValue(text);
+            string parameterInput = ParseParameters(text);
+
+            return new CommandInput(commandValue, parameterInput);;
         }
 
         private void ListHelpCommands()
@@ -146,7 +160,7 @@ namespace FireBullet.Enviro.Services
                 "              Command Help List              \n" +
                 "\n";
 
-            foreach(Command command in m_commands)
+            foreach (Command command in m_commands)
             {
                 m_backlogText.text += $"- {command.CommandString}\n" +
                     $"<i>    {command.CommandDefinition}</i>\n\n";
@@ -156,5 +170,38 @@ namespace FireBullet.Enviro.Services
                              "---------------------------------------------\n";
         }
         #endregion
+
+        #region Low Level Functions
+        private string ParseParameters(string text)
+        {
+            if (!text.Contains("(")) return string.Empty;
+            return "(" + text.Split(new char[] { '(' }).Last().Replace(" ", String.Empty);
+        }
+
+        private string ParseCommandValue(string text)
+        {
+            string[] input = text.Split(new char[] { ' ', ',' })
+                                 .Where(x => x != string.Empty).ToArray(); ;
+
+            string commandValue = String.Join(" ", input.ToArray())
+                                        .Split(new char[] { '(' })[0];
+
+            commandValue = commandValue.Trim();
+            return commandValue;
+        }
+
+        #endregion
+    }
+
+    public struct CommandInput
+    {
+        public string CommandValue;
+        public string CommandParameters;
+
+        public CommandInput(string value, string parameters)
+        {
+            CommandValue = value;
+            CommandParameters = parameters;
+        }
     }
 }
