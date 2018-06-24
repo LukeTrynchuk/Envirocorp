@@ -85,7 +85,7 @@ namespace FireBullet.Enviro.Services
         private void AddTextToBackLog()
         {
             string value = m_inputField.text;
-            m_backlogText.text += $"\n>>><b><color=#298E37>{value}<color=#D9D9D9><b>\n";
+            m_backlogText.text += $"\n>>><b><color=#298E37>{value}<color=#D9D9D9></b>\n";
 			m_scrollView.verticalNormalizedPosition = 0f;
         }
         #endregion
@@ -110,13 +110,15 @@ namespace FireBullet.Enviro.Services
 
         private void ProcessInput(string text)
         {
-            if(text.Equals("help"))
+            text = text.ToUpper();
+
+            if(text.Equals("HELP"))
             {
                 ListHelpCommands();
                 return;
             }
 
-            Command command = m_commands.Where(x => x.CommandString.Equals(text)).FirstOrDefault();
+            Command command = m_commands.Where(x => x.CommandString.ToUpper().Equals(text)).FirstOrDefault();
             if(command == null) 
             {
 				m_backlogText.text += "Error : Invalid Command\n";
@@ -136,7 +138,7 @@ namespace FireBullet.Enviro.Services
             foreach(Command command in m_commands)
             {
                 m_backlogText.text += $"- {command.CommandString}\n" +
-                    $"<i>    {command.CommandDefinition}<i>\n\n";
+                    $"<i>    {command.CommandDefinition}</i>\n\n";
             }
         }
         #endregion
