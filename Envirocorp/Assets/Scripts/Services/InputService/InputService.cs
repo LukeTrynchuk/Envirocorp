@@ -3,6 +3,7 @@ using UnityEngine;
 using FireBullet.Core.Services;
 using System;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 namespace FireBullet.Enviro.Services
 {
@@ -60,15 +61,12 @@ namespace FireBullet.Enviro.Services
 
         void TouchCell(Vector3 position)
         {
-            position = transform.InverseTransformPoint(position);
-            HexCoordinate coordinate = HexCoordinate.FromPosition(position);
+            HexCell[] hexCells = m_boardService.Reference.GetBoard();
+            HexCell closestHex = hexCells
+                                .OrderBy(x => Vector3.Distance(x.transform.position, position))
+                                .FirstOrDefault();
 
-            HexCell cell = m_boardService.Reference.GetCellAt(coordinate);
-
-            if(cell != null)
-            {
-				OnHexPressed?.Invoke(cell.m_Coordinate);            
-            }
+            OnHexPressed?.Invoke(closestHex.m_Coordinate);
         }
 
 
