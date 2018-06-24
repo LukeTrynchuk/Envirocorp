@@ -126,7 +126,7 @@ namespace FireBullet.Enviro.Services
             Command command = m_commands.Where(x => x.CommandString.ToUpper().Equals(text)).FirstOrDefault();
             if(command == null) 
             {
-				m_backlogText.text += "Error : Invalid Command\n";
+                AddTextToBackLog("Error : Invalid Command", false);
                 return;
             }
             AddTextToBackLog(command.Execute(), false);
@@ -145,6 +145,9 @@ namespace FireBullet.Enviro.Services
                 m_backlogText.text += $"- {command.CommandString}\n" +
                     $"<i>    {command.CommandDefinition}</i>\n\n";
             }
+
+            m_backlogText.text +=
+                             "---------------------------------------------\n";
         }
         #endregion
     }

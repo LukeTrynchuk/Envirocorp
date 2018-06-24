@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using FireBullet.Core.Services;
+using FireBullet.Enviro.Services;
 
 namespace FireBullet.Enviro.Services
 {
@@ -16,7 +16,11 @@ namespace FireBullet.Enviro.Services
 
         public override string Execute()
         {
-            return "Map Editor closed";
+            ServiceReference<IMapEditorService> m_mapEditorService = new ServiceReference<IMapEditorService>();
+            if (!m_mapEditorService.isRegistered()) return "Map Editor Close failed : Map Editor not registered";
+
+            m_mapEditorService.Reference.Activate(false);
+            return "Map Editor closed successfully";
         }
     }
 }

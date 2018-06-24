@@ -15,7 +15,11 @@ namespace FireBullet.Enviro.Services
 
         public override string Execute() 
         {
-            return "Map Editor opened";
+            ServiceReference<IMapEditorService> m_mapEditorService = new ServiceReference<IMapEditorService>();
+            if(!m_mapEditorService.isRegistered()) return "Map Editor Close failed : Map Editor not registered";
+
+            m_mapEditorService.Reference.Activate(true);
+            return "Map Editor opened successfully";
         }
     }
 }
