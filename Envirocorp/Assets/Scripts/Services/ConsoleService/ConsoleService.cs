@@ -4,6 +4,7 @@ using FireBullet.Enviro.Utilities;
 using TMPro;
 using System;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace FireBullet.Enviro.Services
 {
@@ -34,6 +35,9 @@ namespace FireBullet.Enviro.Services
 
         [SerializeField]
         private DynamicBoolEvent m_onConsoleActiveStatusChanged;
+
+        [SerializeField]
+        private Command[] m_commands;
 
         private ServiceReference<IInputService> m_inputService = new ServiceReference<IInputService>();
         private bool m_active = false;
@@ -73,6 +77,7 @@ namespace FireBullet.Enviro.Services
         void HandleConsoleEnterKeyPressed()
         {
             AddTextToBackLog();
+			ProcessInput(m_inputField.text);
 			m_inputField.ActivateInputField();
             m_inputField.text = "";
         }
@@ -101,6 +106,38 @@ namespace FireBullet.Enviro.Services
                 "Envirocorp Console - FireBullet Games 2018 (C) \n" +
                 "---------------------------------------------\n" +
                 "Type help for list of all commands.\n";
+        }
+
+        private void ProcessInput(string text)
+        {
+            if(text.Equals("help"))
+            {
+                ListHelpCommands();
+                return;
+            }
+
+            Command command = m_commands.Where(x => x.CommandString.Equals(text)).FirstOrDefault();
+            if(command == null) 
+            {
+				m_backlogText.text += "Error : Invalid Command\n";
+                return;
+            }
+            command.Execute();
+        }
+
+        private void ListHelpCommands()
+        {
+            m_backlogText.text +=
+                "\n" +
+                "---------------------------------------------\n" +
+                "              Command Help List              \n" +
+                "\n";
+
+            foreach(Command command in m_commands)
+            {
+                m_backlogText.text += $"- {command.CommandString}\n" +
+                    $"<i>    {command.CommandDefinition}<i>\n\n";
+            }
         }
         #endregion
     }
