@@ -66,6 +66,7 @@ namespace FireBullet.Enviro.Services
         {
             m_active = !m_active;
             m_inputField.ActivateInputField();
+            m_inputField.text = "";
             m_onConsoleActiveStatusChanged?.Invoke(m_active);
         }
 
@@ -79,7 +80,7 @@ namespace FireBullet.Enviro.Services
         private void AddTextToBackLog()
         {
             string value = m_inputField.text;
-            m_backlogText.text += $"\n>>><b><i><color=#298E37>{value}<color=#D9D9D9><i><b>\n";
+            m_backlogText.text += $"\n>>><b><color=#298E37>{value}<color=#D9D9D9><b>\n";
 			m_scrollView.verticalNormalizedPosition = 0f;
         }
         #endregion
