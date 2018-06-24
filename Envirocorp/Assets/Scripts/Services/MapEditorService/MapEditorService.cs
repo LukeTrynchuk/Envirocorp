@@ -2,6 +2,7 @@
 using FireBullet.Enviro.Utilities;
 using FireBullet.Core.Services;
 using FireBullet.Enviro.Board;
+using System;
 
 namespace FireBullet.Enviro.Services
 {
@@ -14,6 +15,10 @@ namespace FireBullet.Enviro.Services
     /// </summary>
     public class MapEditorService : MonoBehaviour, IMapEditorService
     {
+        #region Public Variables
+        public event Action<HexTypeDefinition> OnBrushChanged;
+        #endregion
+
         #region Private Variables
         [SerializeField]
         private DynamicBoolEvent m_onActivatedStateChanged;
@@ -66,7 +71,11 @@ namespace FireBullet.Enviro.Services
             m_worldGenerator.Reference.RetriangulateWorld();
         }
 
-        public void SetCurrentHexBrush(HexTypeDefinition definition) => m_brush = definition;
+        public void SetCurrentHexBrush(HexTypeDefinition definition) 
+        {
+			m_brush = definition;
+            OnBrushChanged?.Invoke(m_brush);
+        }
         #endregion
 
         #region Utility Methods

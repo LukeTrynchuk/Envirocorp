@@ -351,7 +351,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: FireBullet.Enviro.Utilities.DynamicBoolEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_changeColor: {r: 0.38652548, g: 0.6296373, b: 0.8113208, a: 0}
 --- !u!114 &636513486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,7 +504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -123.5, y: -21.4}
+  m_AnchoredPosition: {x: -119.75, y: -46}
   m_SizeDelta: {x: 239.5, y: 35.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1565526574
@@ -541,7 +540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58449358381fe42b8a063b2fbf7facaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_hexButtonPrefab: {fileID: 1313164926122750, guid: 1add9fe519752407785cf530e2c936bd,
+  m_hexButtonPrefab: {fileID: 1589526883512794, guid: 69bc0e1a45dac4d3ca68f2f71ad91bf0,
     type: 2}
 --- !u!1 &1587425379
 GameObject:
@@ -573,9 +572,9 @@ RectTransform:
   m_Father: {fileID: 1897840007}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 86.6, y: 15}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -87, y: -15}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1587425381
@@ -604,7 +603,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 5
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

@@ -12,6 +12,8 @@ namespace FireBullet.Enviro.Services
     /// </summary>
     public interface IMapEditorService : IService
     {
+        event System.Action<HexTypeDefinition> OnBrushChanged;
+
         void Activate(bool value);
         void SetCurrentHexBrush(HexTypeDefinition definition);
     }

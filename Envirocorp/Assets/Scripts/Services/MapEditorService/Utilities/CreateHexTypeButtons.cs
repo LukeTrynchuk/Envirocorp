@@ -4,6 +4,8 @@ using FireBullet.Enviro.Services;
 using FireBullet.Enviro.Board;
 using UnityEngine.UI;
 using FireBullet.Enviro.MapEditor;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace FireBullet.Enviro.UI
 {
@@ -29,18 +31,23 @@ namespace FireBullet.Enviro.UI
 
         private void CreateButtons(HexTypeDefinition[] definitions)
         {
+            List<GameObject> buttonList = new List<GameObject>();
+
             foreach(HexTypeDefinition definition in definitions)
             {
                 GameObject button = Instantiate(m_hexButtonPrefab);
                 button.transform.parent = transform;
 
-                Image image = button.GetComponent<Image>();
+                Image image = button.GetComponentInChildren<Image>();
                 image.color = definition.TypeColor;
 
-                HexButtonBehaviour hexButton = button.GetComponent<HexButtonBehaviour>();
+                HexButtonBehaviour hexButton = button.GetComponentInChildren<HexButtonBehaviour>();
                 hexButton.SetDefinition(definition);
-                hexButton.OnClicked();
+
+                buttonList.Add(button);
             }
+
+            buttonList[buttonList.Count - 1].GetComponentInChildren<HexButtonBehaviour>().OnClicked();
         }
         #endregion
 
