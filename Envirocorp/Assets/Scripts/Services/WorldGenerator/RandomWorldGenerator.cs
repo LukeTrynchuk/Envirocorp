@@ -4,6 +4,8 @@ using FireBullet.Enviro.Board;
 using UnityEngine.UI;
 using System;
 using FireBullet.Enviro.Utilities;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace FireBullet.Enviro.Services
 {
@@ -30,9 +32,11 @@ namespace FireBullet.Enviro.Services
         [SerializeField]
         private HexMesh m_hexMesh;
 
+        private List<GameObject> m_hexCoordinateLabelList = new List<GameObject>();
         private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
         private HexCell[] m_cells;
         private int m_width, m_height;
+        private bool m_visualizeCoordinates = false;
         #endregion
 
         #region Main Methods
@@ -45,12 +49,11 @@ namespace FireBullet.Enviro.Services
 
         public void GenerateWorld(int width, int height)
         {
-            m_width = width;
-            m_height = height;
+            InitializeData(width, height);
 
-            m_cells = new HexCell[width * height];
             GenerateBoard(width, height);
             m_hexMesh.Triangulate(m_cells);
+            VisualizeGridCoordinates(m_visualizeCoordinates);
 
             OnWorldGenerated?.Invoke(m_cells, m_width, m_height);
         }
@@ -59,6 +62,13 @@ namespace FireBullet.Enviro.Services
         {
             if (!m_boardService.isRegistered()) return;
             m_hexMesh.Triangulate(m_boardService.Reference.GetBoard());
+        }
+
+        public void VisualizeGridCoordinates(bool value)
+        {
+            m_visualizeCoordinates = value;
+            foreach (GameObject hexCoord in m_hexCoordinateLabelList)
+                hexCoord.SetActive(value);
         }
         #endregion
 
@@ -107,6 +117,18 @@ namespace FireBullet.Enviro.Services
             label.rectTransform.anchoredPosition =
                 new Vector2(position.x, position.z);
             label.text = m_cells[index].m_Coordinate.ToStringOnSeparateLines();
+            m_hexCoordinateLabelList.Add(label.gameObject);
+        }
+
+        private void InitializeData(int width, int height)
+        {
+            m_width = width;
+            m_height = height;
+            m_cells = new HexCell[width * height];
+
+            for (int i = m_hexCoordinateLabelList.Count - 1; i >= 0; i--)
+                Destroy(m_hexCoordinateLabelList[i]);
+            m_hexCoordinateLabelList.Clear();
         }
         #endregion
     }
