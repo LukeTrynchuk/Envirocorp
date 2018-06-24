@@ -17,20 +17,21 @@ namespace FireBullet.Enviro.Board
 
         #region Private Variables
         [SerializeField]
-        private HexCell[] m_neighbours;
+        private HexCell[] m_neighbors;
         #endregion
 
         #region Main Methods
         private void Awake()
         {
             m_Color = Color.white;
+            m_neighbors = new HexCell[6];
         }
 
-        public HexCell GetNeighbour(HexDirection direction) => m_neighbours[(int)direction];
-        public void SetNeighbour(HexDirection direction, HexCell cell) 
+        public HexCell GetNeighbor(HexDirection direction) => m_neighbors[(int)direction];
+        public void SetNeighbor(HexDirection direction, HexCell cell) 
         {
-			m_neighbours[(int)direction] = cell;
-            cell.m_neighbours[(int)direction.Opposite()] = this;
+			m_neighbors[(int)direction] = cell;
+            cell.m_neighbors[(int)direction.Opposite()] = this;
         }
         #endregion
     }
