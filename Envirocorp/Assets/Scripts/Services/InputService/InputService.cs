@@ -32,7 +32,7 @@ namespace FireBullet.Enviro.Services
 
         void Update()
         {
-            if (Input.GetMouseButton(0)) HandleLeftClick();
+            if (Input.GetMouseButtonDown(0)) HandleLeftClick();
 
             if(Input.GetKeyDown(KeyCode.Backslash)) HandleConsoleKeyPressed();
 
