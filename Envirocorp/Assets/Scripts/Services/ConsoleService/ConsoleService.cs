@@ -76,16 +76,21 @@ namespace FireBullet.Enviro.Services
 
         void HandleConsoleEnterKeyPressed()
         {
-            AddTextToBackLog();
+            AddTextToBackLog(m_inputField.text, true);
 			ProcessInput(m_inputField.text);
 			m_inputField.ActivateInputField();
             m_inputField.text = "";
         }
 
-        private void AddTextToBackLog()
+        private void AddTextToBackLog(string value, bool command)
         {
-            string value = m_inputField.text;
-            m_backlogText.text += $"\n>>><b><color=#298E37>{value}<color=#D9D9D9></b>\n";
+            if (string.IsNullOrEmpty(value)) return;
+            if(command)
+                m_backlogText.text += $"\n>>><b><color=#298E37>{value}<color=#D9D9D9></b>";
+
+            if(!command)
+                m_backlogText.text += $"\n{value}\n";
+            
 			m_scrollView.verticalNormalizedPosition = 0f;
         }
         #endregion
@@ -124,7 +129,7 @@ namespace FireBullet.Enviro.Services
 				m_backlogText.text += "Error : Invalid Command\n";
                 return;
             }
-            command.Execute();
+            AddTextToBackLog(command.Execute(), false);
         }
 
         private void ListHelpCommands()
