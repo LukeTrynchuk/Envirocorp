@@ -18,14 +18,12 @@ namespace FireBullet.Enviro.Services
         [SerializeField]
         private DynamicBoolEvent m_onActivatedStateChanged;
 
-        [SerializeField]
-        private Color m_changeColor;
-
         private ServiceReference<IInputService> m_inputService = new ServiceReference<IInputService>();
         private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
         private ServiceReference<IWorldGenerator> m_worldGenerator = new ServiceReference<IWorldGenerator>();
 
         private bool m_activated = false;
+        private HexTypeDefinition m_brush;
         #endregion
 
         #region Main Methods
@@ -63,10 +61,12 @@ namespace FireBullet.Enviro.Services
             if (!m_worldGenerator.isRegistered()) return;
 
             HexCell cell = m_boardService.Reference.GetCellAt(coordinate);
-            cell.m_Color = m_changeColor;
+            cell.m_Color = m_brush.TypeColor;
 
             m_worldGenerator.Reference.RetriangulateWorld();
         }
+
+        public void SetCurrentHexBrush(HexTypeDefinition definition) => m_brush = definition;
         #endregion
 
         #region Utility Methods

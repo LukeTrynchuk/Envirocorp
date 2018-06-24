@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using FireBullet.Core.Services;
+using FireBullet.Enviro.Board;
 
 namespace FireBullet.Enviro.Services
 {
@@ -12,5 +13,6 @@ namespace FireBullet.Enviro.Services
     public interface IMapEditorService : IService
     {
         void Activate(bool value);
+        void SetCurrentHexBrush(HexTypeDefinition definition);
     }
 }

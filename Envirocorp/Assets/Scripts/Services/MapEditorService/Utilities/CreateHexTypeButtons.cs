@@ -3,6 +3,7 @@ using FireBullet.Core.Services;
 using FireBullet.Enviro.Services;
 using FireBullet.Enviro.Board;
 using UnityEngine.UI;
+using FireBullet.Enviro.MapEditor;
 
 namespace FireBullet.Enviro.UI
 {
@@ -32,8 +33,13 @@ namespace FireBullet.Enviro.UI
             {
                 GameObject button = Instantiate(m_hexButtonPrefab);
                 button.transform.parent = transform;
+
                 Image image = button.GetComponent<Image>();
                 image.color = definition.TypeColor;
+
+                HexButtonBehaviour hexButton = button.GetComponent<HexButtonBehaviour>();
+                hexButton.SetDefinition(definition);
+                hexButton.OnClicked();
             }
         }
         #endregion
