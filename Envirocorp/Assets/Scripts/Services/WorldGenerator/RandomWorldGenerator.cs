@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using FireBullet.Core.Services;
 using FireBullet.Enviro.Board;
-using UnityEngine.UI;
 using System;
 using FireBullet.Enviro.Utilities;
 
@@ -22,15 +21,13 @@ namespace FireBullet.Enviro.Services
         private GameObject m_hexPrefab;
 
         [SerializeField]
-        private Text m_cellLabelPrefab;
-
-        [SerializeField]
-        private Canvas m_gridCanvas;
-
-        [SerializeField]
         private HexMesh m_hexMesh;
 
         private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
+
+        private ServiceReference<IHexCoordinateVisualizerService> m_hexCoordinateVisualizer
+                                = new ServiceReference<IHexCoordinateVisualizerService>();
+
         private HexCell[] m_cells;
         private int m_width, m_height;
         #endregion
@@ -45,12 +42,12 @@ namespace FireBullet.Enviro.Services
 
         public void GenerateWorld(int width, int height)
         {
-            m_width = width;
-            m_height = height;
+            InitializeData(width, height);
 
-            m_cells = new HexCell[width * height];
             GenerateBoard(width, height);
             m_hexMesh.Triangulate(m_cells);
+
+            m_hexCoordinateVisualizer.Reference?.Visualize(m_hexCoordinateVisualizer.Reference.visible);
 
             OnWorldGenerated?.Invoke(m_cells, m_width, m_height);
         }
@@ -80,7 +77,7 @@ namespace FireBullet.Enviro.Services
 
             CreateHexObject(v, i, j, position);
 
-            CreateCellLabel(position, i,j, v);
+            m_hexCoordinateVisualizer.Reference?.CreateHexCoordinate(position, i, j, m_cells[v]);
         }
 
         private void CreateHexObject(int i, int x, int z, Vector3 position)
@@ -100,13 +97,12 @@ namespace FireBullet.Enviro.Services
             return position;
         }
 
-        private void CreateCellLabel(Vector3 position, int x, int z, int index)
+        private void InitializeData(int width, int height)
         {
-            Text label = Instantiate<Text>(m_cellLabelPrefab);
-            label.rectTransform.SetParent(m_gridCanvas.transform, false);
-            label.rectTransform.anchoredPosition =
-                new Vector2(position.x, position.z);
-            label.text = m_cells[index].m_Coordinate.ToStringOnSeparateLines();
+            m_width = width;
+            m_height = height;
+            m_cells = new HexCell[width * height];
+            m_hexCoordinateVisualizer.Reference?.ClearVisualization();
         }
         #endregion
     }

@@ -123,6 +123,12 @@ namespace FireBullet.Enviro.Services
                 return;
             }
 
+            if(text.Equals("CLEAR"))
+            {
+                SetConsoleText();
+                return;
+            }
+
             Command command = m_commands.Where(x => x.CommandString.ToUpper().Equals(text)).FirstOrDefault();
             if(command == null) 
             {
