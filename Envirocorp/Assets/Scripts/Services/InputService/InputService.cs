@@ -1,6 +1,8 @@
 ﻿using FireBullet.Enviro.Board;
 using UnityEngine;
 using FireBullet.Core.Services;
+using System;
+using UnityEngine.EventSystems;
 
 namespace FireBullet.Enviro.Services
 {
@@ -13,11 +15,15 @@ namespace FireBullet.Enviro.Services
     public class InputService : MonoBehaviour, IInputService
     {
         #region Public Variables
-        public event System.Action<HexCoordinate> OnHexPressed;
+        public event Action<HexCoordinate> OnHexPressed;
+
+        public event Action OnConsoleKeyPressed;
+        public event Action OnConsoleCommandKeyPressed;
         #endregion
 
         #region Private Variables
         private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
+        private ServiceReference<IConsoleService> m_consoleService = new ServiceReference<IConsoleService>();
         #endregion
 
         #region Main Methods
@@ -25,10 +31,11 @@ namespace FireBullet.Enviro.Services
 
         void Update()
         {
-            if (Input.GetMouseButton(0))
-            {
-                HandleLeftClick();
-            }
+            if (Input.GetMouseButton(0)) HandleLeftClick();
+
+            if(Input.GetKeyDown(KeyCode.Backslash)) HandleConsoleKeyPressed();
+
+            if (Input.GetKeyDown(KeyCode.Return)) HandleEnterKeyPressed();
         }
 
         public void RegisterService()
@@ -41,6 +48,7 @@ namespace FireBullet.Enviro.Services
         private void HandleLeftClick()
         {
             if (!m_boardService.isRegistered()) return;
+            if (EventSystem.current.IsPointerOverGameObject()) return;
 
             Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -62,6 +70,21 @@ namespace FireBullet.Enviro.Services
 				OnHexPressed?.Invoke(cell.m_Coordinate);            
             }
         }
+
+
+        private void HandleEnterKeyPressed()
+        {
+            bool consoleActive = m_consoleService.Reference?.Active ?? false;
+
+            if(consoleActive) 
+            {
+                OnConsoleCommandKeyPressed?.Invoke();
+                return;
+            }
+        }
+
+        void HandleConsoleKeyPressed() => OnConsoleKeyPressed?.Invoke();
+        
         #endregion
     }
 }
