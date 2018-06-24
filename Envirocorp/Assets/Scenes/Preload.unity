@@ -139,7 +139,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1066402877}
   - {fileID: 1526646288}
   m_Father: {fileID: 509785971}
   m_RootOrder: 0
@@ -157,9 +156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_hexPrefab: {fileID: 1575198114355856, guid: 16e1f998898a64b45b1250298ae3cba4,
     type: 2}
-  m_cellLabelPrefab: {fileID: 114852514976166428, guid: 72d074aafd77c42d68e64263185dcc7e,
-    type: 2}
-  m_gridCanvas: {fileID: 1066402879}
   m_hexMesh: {fileID: 1526646291}
 --- !u!1 &186973553
 GameObject:
@@ -621,6 +617,7 @@ Transform:
   - {fileID: 1667483516}
   - {fileID: 901116002}
   - {fileID: 475843394}
+  - {fileID: 1066402877}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1233,6 +1230,7 @@ GameObject:
   - component: {fileID: 1066402877}
   - component: {fileID: 1066402879}
   - component: {fileID: 1066402878}
+  - component: {fileID: 1066402880}
   m_Layer: 5
   m_Name: HexCoordinateVisualizer
   m_TagString: Untagged
@@ -1246,12 +1244,12 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1066402876}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 104730919}
-  m_RootOrder: 0
+  m_Father: {fileID: 509785971}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1299,6 +1297,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1066402880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1066402876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6368d414f227148f6b75b4e50e24b331, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_labelPrefab: {fileID: 114852514976166428, guid: 72d074aafd77c42d68e64263185dcc7e,
+    type: 2}
+  m_gridCanvas: {fileID: 1066402879}
 --- !u!1 &1245175211
 GameObject:
   m_ObjectHideFlags: 0
@@ -1550,7 +1562,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 104730919}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1526646289
 MeshRenderer:

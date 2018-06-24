@@ -16,10 +16,12 @@ namespace FireBullet.Enviro.Services
 
         public override string Execute()
         {
-            ServiceReference<IWorldGenerator> m_worldGenerator = new ServiceReference<IWorldGenerator>();
-            if (!m_worldGenerator.isRegistered()) return "Visualize Grid Coordinates failed : World Generator not registered";
+            ServiceReference<IHexCoordinateVisualizerService> m_hexVisualizer 
+                    = new ServiceReference<IHexCoordinateVisualizerService>();
 
-            m_worldGenerator.Reference.VisualizeGridCoordinates(false);
+            if (!m_hexVisualizer.isRegistered()) return "Visualize Grid Coordinates failed : Visualizer not registered";
+
+            m_hexVisualizer.Reference.Visualize(false);
             return "Deactivate Grid Coordinates successful";
         }
     }

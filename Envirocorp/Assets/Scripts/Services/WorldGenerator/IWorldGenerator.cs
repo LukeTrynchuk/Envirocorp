@@ -14,6 +14,5 @@ namespace FireBullet.Enviro.Services
 
         void GenerateWorld(int width, int height);
         void RetriangulateWorld();
-        void VisualizeGridCoordinates(bool value);
     }
 }

@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using FireBullet.Core.Services;
 using FireBullet.Enviro.Board;
-using UnityEngine.UI;
 using System;
 using FireBullet.Enviro.Utilities;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace FireBullet.Enviro.Services
 {
@@ -24,19 +21,15 @@ namespace FireBullet.Enviro.Services
         private GameObject m_hexPrefab;
 
         [SerializeField]
-        private Text m_cellLabelPrefab;
-
-        [SerializeField]
-        private Canvas m_gridCanvas;
-
-        [SerializeField]
         private HexMesh m_hexMesh;
 
-        private List<GameObject> m_hexCoordinateLabelList = new List<GameObject>();
         private ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
+
+        private ServiceReference<IHexCoordinateVisualizerService> m_hexCoordinateVisualizer
+                                = new ServiceReference<IHexCoordinateVisualizerService>();
+
         private HexCell[] m_cells;
         private int m_width, m_height;
-        private bool m_visualizeCoordinates = false;
         #endregion
 
         #region Main Methods
@@ -53,7 +46,8 @@ namespace FireBullet.Enviro.Services
 
             GenerateBoard(width, height);
             m_hexMesh.Triangulate(m_cells);
-            VisualizeGridCoordinates(m_visualizeCoordinates);
+
+            m_hexCoordinateVisualizer.Reference?.Visualize(m_hexCoordinateVisualizer.Reference.visible);
 
             OnWorldGenerated?.Invoke(m_cells, m_width, m_height);
         }
@@ -62,13 +56,6 @@ namespace FireBullet.Enviro.Services
         {
             if (!m_boardService.isRegistered()) return;
             m_hexMesh.Triangulate(m_boardService.Reference.GetBoard());
-        }
-
-        public void VisualizeGridCoordinates(bool value)
-        {
-            m_visualizeCoordinates = value;
-            foreach (GameObject hexCoord in m_hexCoordinateLabelList)
-                hexCoord.SetActive(value);
         }
         #endregion
 
@@ -90,7 +77,7 @@ namespace FireBullet.Enviro.Services
 
             CreateHexObject(v, i, j, position);
 
-            CreateCellLabel(position, i,j, v);
+            m_hexCoordinateVisualizer.Reference?.CreateHexCoordinate(position, i, j, m_cells[v]);
         }
 
         private void CreateHexObject(int i, int x, int z, Vector3 position)
@@ -110,25 +97,12 @@ namespace FireBullet.Enviro.Services
             return position;
         }
 
-        private void CreateCellLabel(Vector3 position, int x, int z, int index)
-        {
-            Text label = Instantiate<Text>(m_cellLabelPrefab);
-            label.rectTransform.SetParent(m_gridCanvas.transform, false);
-            label.rectTransform.anchoredPosition =
-                new Vector2(position.x, position.z);
-            label.text = m_cells[index].m_Coordinate.ToStringOnSeparateLines();
-            m_hexCoordinateLabelList.Add(label.gameObject);
-        }
-
         private void InitializeData(int width, int height)
         {
             m_width = width;
             m_height = height;
             m_cells = new HexCell[width * height];
-
-            for (int i = m_hexCoordinateLabelList.Count - 1; i >= 0; i--)
-                Destroy(m_hexCoordinateLabelList[i]);
-            m_hexCoordinateLabelList.Clear();
+            m_hexCoordinateVisualizer.Reference?.ClearVisualization();
         }
         #endregion
     }
