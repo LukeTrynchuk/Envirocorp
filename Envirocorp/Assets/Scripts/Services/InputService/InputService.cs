@@ -2,6 +2,7 @@
 using UnityEngine;
 using FireBullet.Core.Services;
 using System;
+using UnityEngine.EventSystems;
 
 namespace FireBullet.Enviro.Services
 {
@@ -47,6 +48,7 @@ namespace FireBullet.Enviro.Services
         private void HandleLeftClick()
         {
             if (!m_boardService.isRegistered()) return;
+            if (EventSystem.current.IsPointerOverGameObject()) return;
 
             Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
