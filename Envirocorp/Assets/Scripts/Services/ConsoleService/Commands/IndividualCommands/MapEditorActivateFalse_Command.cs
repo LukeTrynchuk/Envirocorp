@@ -13,6 +13,7 @@ namespace FireBullet.Enviro.Services
     {
         [HideInInspector] public override string CommandString => "MapEditor activate false";
         [HideInInspector] public override string CommandDefinition => "Deactivate the In Game Map Editor";
+        [HideInInspector] public override bool HasParameters => false;
 
         public override string Execute()
         {

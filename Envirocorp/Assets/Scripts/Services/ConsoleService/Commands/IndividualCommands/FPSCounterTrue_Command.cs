@@ -12,6 +12,7 @@ namespace FireBullet.Enviro.Services
     {
         [HideInInspector] public override string CommandString => "FPS Counter true";
         [HideInInspector] public override string CommandDefinition => "Activate the FPS Counter";
+        [HideInInspector] public override bool HasParameters => false;
 
         public override string Execute()
         {

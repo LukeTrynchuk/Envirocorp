@@ -13,6 +13,7 @@ namespace FireBullet.Enviro.Services
     {
         [HideInInspector] public override string CommandString => "Grid Coordinates Activate false";
         [HideInInspector] public override string CommandDefinition => "Deactivate the visualization of grid coordinates";
+        [HideInInspector] public override bool HasParameters => false;
 
         public override string Execute()
         {

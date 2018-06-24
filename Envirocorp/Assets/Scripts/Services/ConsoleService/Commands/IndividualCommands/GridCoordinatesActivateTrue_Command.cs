@@ -14,6 +14,7 @@ namespace FireBullet.Enviro.Services
     {
         [HideInInspector] public override string CommandString => "Grid Coordinates Activate true";
         [HideInInspector] public override string CommandDefinition => "Activate the visualization of grid coordinates";
+        [HideInInspector] public override bool HasParameters => false;
 
 		public override string Execute()
 		{

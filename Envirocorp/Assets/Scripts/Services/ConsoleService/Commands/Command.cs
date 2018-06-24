@@ -11,6 +11,9 @@ namespace FireBullet.Enviro.Services
     {
         public abstract string CommandString { get; }
         public abstract string CommandDefinition { get; }
+        public abstract bool HasParameters { get; }
+
         public virtual string Execute() { return ""; }
+        public virtual string Execute(string parameter) { return ""; }
     }
 }

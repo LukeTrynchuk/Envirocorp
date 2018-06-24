@@ -137,7 +137,9 @@ namespace FireBullet.Enviro.Services
                 AddTextToBackLog("Error : Invalid Command", false);
                 return;
             }
-            AddTextToBackLog(command.Execute(), false);
+
+            if(!command.HasParameters) AddTextToBackLog(command.Execute(), false);
+            if (command.HasParameters) AddTextToBackLog(command.Execute(input.CommandParameters), false);
         }
 
         private CommandInput ParseInput(string text)
