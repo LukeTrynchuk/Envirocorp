@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using FireBullet.Core.Services;
 using System.Linq;
+using FireBullet.Enviro.Board;
 
 namespace FireBullet.Enviro.Services
 {
@@ -38,8 +39,17 @@ namespace FireBullet.Enviro.Services
 
             if (numericValues.Length != 3) return $"Error : Invalid number of parameters {parameter}";
 
-            return $"Displaying Hex Data {parameter} \n" +
-                $"{numericValues[0].ToString()} {numericValues[1].ToString()} {numericValues[2].ToString()}";
+            ServiceReference<IBoardService> m_boardService = new ServiceReference<IBoardService>();
+            if (!m_boardService.isRegistered()) return "Error : Board Service not registered";
+
+            HexCell cell = m_boardService.Reference.GetCellAt(new HexCoordinate(numericValues[0], numericValues[2]));
+
+            if (cell == null) return $"Error : No such hex exists at coordinates {parameter}";
+
+            return "Hex Data Result : \n" +
+                $"Color : {cell.m_Color.ToString()} \n" +
+                $"Coordinates : {cell.m_Coordinate.ToString()}";
+
         }
     }
 }
