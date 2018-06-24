@@ -65,6 +65,7 @@ namespace FireBullet.Enviro.Services
         void HandleConsoleKeyPressed()
         {
             m_active = !m_active;
+            m_inputField.ActivateInputField();
             m_onConsoleActiveStatusChanged?.Invoke(m_active);
         }
 
