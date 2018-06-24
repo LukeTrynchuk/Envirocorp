@@ -302,6 +302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 636513484}
   - component: {fileID: 636513485}
+  - component: {fileID: 636513486}
   m_Layer: 0
   m_Name: InGameMapEditor
   m_TagString: Untagged
@@ -351,6 +352,33 @@ MonoBehaviour:
     m_TypeName: FireBullet.Enviro.Utilities.DynamicBoolEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_changeColor: {r: 0.38652548, g: 0.6296373, b: 0.8113208, a: 0}
+--- !u!114 &636513486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 636513483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f7417bb1f4b40a1b923c2c2597d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_onEnabled:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1897840003}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1048838043
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,6 +482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1565526573}
   - component: {fileID: 1565526574}
+  - component: {fileID: 1565526575}
   m_Layer: 5
   m_Name: TileTypeButtonsContainer
   m_TagString: Untagged
@@ -476,7 +505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -119.8, y: -17.7}
+  m_AnchoredPosition: {x: -123.5, y: -21.4}
   m_SizeDelta: {x: 239.5, y: 35.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1565526574
@@ -497,10 +526,23 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 2
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
+--- !u!114 &1565526575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1565526572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58449358381fe42b8a063b2fbf7facaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_hexButtonPrefab: {fileID: 1313164926122750, guid: 1add9fe519752407785cf530e2c936bd,
+    type: 2}
 --- !u!1 &1587425379
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,7 +634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1897840004
 MonoBehaviour:
   m_ObjectHideFlags: 0

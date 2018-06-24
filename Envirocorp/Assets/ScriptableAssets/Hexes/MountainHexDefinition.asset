@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: MountainHexDefinition
   m_EditorClassIdentifier: 
   TypeName: Mountain
-  TypeColor: {r: 0.3490566, g: 0.24217695, b: 0.103729084, a: 0}
+  TypeColor: {r: 0.3490566, g: 0.24217695, b: 0.103729084, a: 1}
