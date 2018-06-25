@@ -121,6 +121,12 @@ namespace FireBullet.Enviro.Services
 
             if (input.CommandValue.Equals("HELP"))
             {
+                if(!input.CommandParameters.Equals(string.Empty))
+                {
+                    ListSearchedHelp(input.CommandParameters);
+                    return;
+                }
+
                 ListHelpCommands();
                 return;
             }
@@ -163,6 +169,29 @@ namespace FireBullet.Enviro.Services
                 "\n";
 
             foreach (Command command in m_commands)
+            {
+                m_backlogText.text += $"- {command.CommandString}\n" +
+                    $"<i>    {command.CommandDefinition}</i>\n\n";
+            }
+
+            m_backlogText.text +=
+                             "---------------------------------------------\n";
+        }
+
+        private void ListSearchedHelp(string searchTerm)
+        {
+            searchTerm = searchTerm.Replace("(", "");
+            searchTerm = searchTerm.Replace(")", "");
+
+            m_backlogText.text +=
+                "\n" +
+                "---------------------------------------------\n" +
+                "              Command Help List              \n" +
+               $"Seached term : {searchTerm}\n\n";
+
+            Command[] commands = m_commands.Where(x => x.CommandString.ToUpper().Contains(searchTerm)).ToArray();
+
+            foreach (Command command in commands)
             {
                 m_backlogText.text += $"- {command.CommandString}\n" +
                     $"<i>    {command.CommandDefinition}</i>\n\n";
