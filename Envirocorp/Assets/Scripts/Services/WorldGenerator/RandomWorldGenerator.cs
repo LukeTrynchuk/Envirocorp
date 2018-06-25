@@ -112,7 +112,7 @@ namespace FireBullet.Enviro.Services
         {
             GenerateEastWestRelationships();
             //GenerateNESWRelationships();
-            //GenerateSENWRelationships();
+            GenerateSENWRelationships();
         }
 
         private void GenerateEastWestRelationships()
@@ -148,7 +148,32 @@ namespace FireBullet.Enviro.Services
 
         private void GenerateSENWRelationships()
         {
-            
+            int yhighest = 0;
+            int ylowest = 0;
+            foreach (HexCell cell in m_cells)
+            {
+                if (cell.m_Coordinate.Y > yhighest)
+                    yhighest = cell.m_Coordinate.Y;
+
+                if (cell.m_Coordinate.Y < ylowest)
+                    ylowest = cell.m_Coordinate.Y;
+            }
+
+            for (int i = ylowest; i <= yhighest; i++)
+            {
+                HexCell[] cells = m_cells.Where(x => x.m_Coordinate.Y == i).ToArray();
+
+                for (int j = 0; j < cells.Length; j++)
+                {
+                    for (int k = 0; k < cells.Length; k++)
+                    {
+                        if (cells[j].m_Coordinate.X == cells[k].m_Coordinate.X + 1)
+                        {
+                            cells[j].SetNeighbor(HexDirection.NW, cells[k]);
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
