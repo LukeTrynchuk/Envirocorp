@@ -53,6 +53,16 @@ namespace FireBullet.Enviro.Board
                 line.transform.parent = transform;
             }
         }
+
+        public void StopDisplayingNeighbors()
+        {
+            for (int i = transform.childCount - 1; i >= 0 ; i--)
+            {
+                LineRenderer lineRenderer = transform.GetChild(i).GetComponent<LineRenderer>();
+                if (lineRenderer == null) continue;
+                Destroy(lineRenderer.gameObject);
+            }
+        }
         #endregion
     }
 }
