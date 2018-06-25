@@ -1253,6 +1253,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eb69fd3b5648a4a4fa7a86467ba5cc87, type: 2}
   - {fileID: 11400000, guid: 98711a8e7dff44e1ab18daddd2d547aa, type: 2}
   - {fileID: 11400000, guid: ed8bccd312add40c3950253c67cee4da, type: 2}
+  - {fileID: 11400000, guid: 651ba7ea2745a466486a78b1ab4813ac, type: 2}
 --- !u!114 &901116004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2007,7 +2008,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 404563158}
   m_HandleRect: {fileID: 404563156}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

@@ -18,6 +18,9 @@ namespace FireBullet.Enviro.Board
         #region Private Variables
         [SerializeField]
         private HexCell[] m_neighbors;
+
+        [SerializeField]
+        private GameObject m_lineRendererPrefab;
         #endregion
 
         #region Main Methods
@@ -32,6 +35,23 @@ namespace FireBullet.Enviro.Board
         {
 			m_neighbors[(int)direction] = cell;
             cell.m_neighbors[(int)direction.Opposite()] = this;
+        }
+
+        public void DisplayNeighbors()
+        {
+            for (int i = 0; i < m_neighbors.Length; i++)
+            {
+                if (m_neighbors[i] == null) continue;
+                GameObject line = Instantiate(m_lineRendererPrefab, transform.position + (Vector3.up * 5f), Quaternion.identity);
+                LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
+
+                lineRenderer.SetPositions(new Vector3[]{
+                    line.transform.position,
+                    m_neighbors[i].gameObject.transform.position
+                });
+
+                line.transform.parent = transform;
+            }
         }
         #endregion
     }

@@ -56,3 +56,5 @@ MonoBehaviour:
     m_z: 0
   m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_neighbors: []
+  m_lineRendererPrefab: {fileID: 1962531031718200, guid: 1ded4e602997c45c4b4062cb743429d3,
+    type: 2}
