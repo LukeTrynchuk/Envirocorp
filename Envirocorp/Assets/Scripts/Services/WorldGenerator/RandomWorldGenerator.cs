@@ -3,6 +3,7 @@ using FireBullet.Core.Services;
 using FireBullet.Enviro.Board;
 using System;
 using FireBullet.Enviro.Utilities;
+using System.Linq;
 
 namespace FireBullet.Enviro.Services
 {
@@ -45,6 +46,7 @@ namespace FireBullet.Enviro.Services
             InitializeData(width, height);
 
             GenerateBoard(width, height);
+
             m_hexMesh.Triangulate(m_cells);
 
             m_hexCoordinateVisualizer.Reference?.Visualize(m_hexCoordinateVisualizer.Reference.visible);
@@ -69,8 +71,9 @@ namespace FireBullet.Enviro.Services
 					CreateCell(i, j, k++);
 				}
 			}
+            GenerateNeighborRelationships();
 		}
-		
+
 		private void CreateCell(int i, int j, int v)
 		{
             Vector3 position = GenerateHexPosition(i, j);
@@ -104,6 +107,100 @@ namespace FireBullet.Enviro.Services
             m_cells = new HexCell[width * height];
             m_hexCoordinateVisualizer.Reference?.ClearVisualization();
         }
+
+        private void GenerateNeighborRelationships()
+        {
+            GenerateEastWestRelationships();
+            GenerateNESWRelationships();
+            GenerateSENWRelationships();
+        }
+
+        private void GenerateEastWestRelationships()
+        {
+            int zhighest = 0;
+            foreach(HexCell cell in m_cells)
+            {
+                if (cell.m_Coordinate.Z > zhighest)
+                    zhighest = cell.m_Coordinate.Z;
+            }
+
+            for (int i = 0; i <= zhighest; i++)
+            {
+                HexCell[] cells = m_cells.Where(x => x.m_Coordinate.Z == i).ToArray();
+
+                for (int j = 0; j < cells.Length; j++)
+                {
+                    for (int k = 0; k < cells.Length; k++)
+                    {
+                        if(cells[j].m_Coordinate.Y == cells[k].m_Coordinate.Y + 1)
+                        {
+                            cells[j].SetNeighbor(HexDirection.E, cells[k]);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void GenerateNESWRelationships()
+        {
+            int xhighest = 0;
+            int xlowest = 0;
+            foreach (HexCell cell in m_cells)
+            {
+                if (cell.m_Coordinate.X > xhighest)
+                    xhighest = cell.m_Coordinate.X;
+
+                if (cell.m_Coordinate.X < xlowest)
+                    xlowest = cell.m_Coordinate.X;
+            }
+
+            for (int i = xlowest; i <= xhighest; i++)
+            {
+                HexCell[] cells = m_cells.Where(x => x.m_Coordinate.X == i).ToArray();
+
+                for (int j = 0; j < cells.Length; j++)
+                {
+                    for (int k = 0; k < cells.Length; k++)
+                    {
+                        if (cells[j].m_Coordinate.Y == cells[k].m_Coordinate.Y + 1)
+                        {
+                            cells[j].SetNeighbor(HexDirection.NE, cells[k]);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void GenerateSENWRelationships()
+        {
+            int yhighest = 0;
+            int ylowest = 0;
+            foreach (HexCell cell in m_cells)
+            {
+                if (cell.m_Coordinate.Y > yhighest)
+                    yhighest = cell.m_Coordinate.Y;
+
+                if (cell.m_Coordinate.Y < ylowest)
+                    ylowest = cell.m_Coordinate.Y;
+            }
+
+            for (int i = ylowest; i <= yhighest; i++)
+            {
+                HexCell[] cells = m_cells.Where(x => x.m_Coordinate.Y == i).ToArray();
+
+                for (int j = 0; j < cells.Length; j++)
+                {
+                    for (int k = 0; k < cells.Length; k++)
+                    {
+                        if (cells[j].m_Coordinate.X == cells[k].m_Coordinate.X + 1)
+                        {
+                            cells[j].SetNeighbor(HexDirection.NW, cells[k]);
+                        }
+                    }
+                }
+            }
+        }
+
         #endregion
     }
 }
